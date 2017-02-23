@@ -1,2 +1,2 @@
 FROM kibana:latest
-USER kibana
+RUN su kibana
