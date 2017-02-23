@@ -1,4 +1,4 @@
-FROM Centos:7
+FROM centos7
 RUN wget https://artifacts.elastic.co/downloads/kibana/kibana-5.2.1-linux-x86_64.tar.gz
 RUN sha1sum kibana-5.2.1-linux-x86_64.tar.gz
 RUN tar -xzf kibana-5.2.1-linux-x86_64.tar.gz -O /app/
