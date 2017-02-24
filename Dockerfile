@@ -60,8 +60,8 @@ RUN set -x \
 	&& grep -q "^server\.host: '0.0.0.0'\$" /etc/kibana/kibana.yml \
 	\
 # ensure the default configuration is useful when using --link
-	&& sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 'http://elasticsearch-elk-stack.intapps.hpeplatformservices.com/'!" /etc/kibana/kibana.yml \
-	&& grep -q "^elasticsearch\.url: 'http://elasticsearch-elk-stack.intapps.hpeplatformservices.com/'\$" /etc/kibana/kibana.yml
+	&& sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 'elasticsearch-elk-stack.intapps.hpeplatformservices.com'!" /etc/kibana/kibana.yml \
+	&& grep -q "^elasticsearch\.url: 'elasticsearch-elk-stack.intapps.hpeplatformservices.com'\$" /etc/kibana/kibana.yml
 
 RUN chmod -R 777 /usr/share/kibana/
 	
