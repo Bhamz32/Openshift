@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
 	--no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 # grab gosu for easy step-down from root
-ENV GOSU_VERSION 1.7
+ENV GOSU_VERSION 1.7htt
 RUN set -x \
 	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
 	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
@@ -60,8 +60,8 @@ RUN set -x \
 	&& grep -q "^server\.host: '0.0.0.0'\$" /etc/kibana/kibana.yml \
 	\
 # ensure the default configuration is useful when using --link
-	&& sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 'elasticsearch-elk-stack.intapps.hpeplatformservices.com'!" /etc/kibana/kibana.yml \
-	&& grep -q "^elasticsearch\.url: 'elasticsearch-elk-stack.intapps.hpeplatformservices.com'\$" /etc/kibana/kibana.yml
+	&& sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 '$ELASTICSEARCHURL'!" /etc/kibana/kibana.yml \
+	&& grep -q "^elasticsearch\.url: '$ELASTICSEARCHURL'\$" /etc/kibana/kibana.yml
 
 RUN chmod -R 777 /usr/share/kibana/
 	
