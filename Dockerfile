@@ -1,3 +1,3 @@
 FROM kibana:latest
-chmod 777 /usr/local/bin/gosu
-chmod 777 /usr/local/bin/tini
+RUN chmod 777 /usr/local/bin/gosu
+RUN chmod 777 /usr/local/bin/tini
