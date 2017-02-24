@@ -68,4 +68,7 @@ RUN chmod -R 777 /usr/share/kibana/
 ENV PATH /usr/share/kibana/bin:$PATH
 
 EXPOSE 5601
+
+RUN if [ "$ELASTICSEARCH_URL" ]; then \ sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 '$ELASTICSEARCH_URL'!" /etc/kibana/kibana.yml \ fi \ set -- gosu kibana tini -- "$@"
+
 CMD ["kibana"]
