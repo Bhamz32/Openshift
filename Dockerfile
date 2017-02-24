@@ -1,2 +1,3 @@
 FROM kibana:latest
-RUN su kibana
+chmod 777 /usr/local/bin/gosu
+chmod 777 /usr/local/bin/tini
