@@ -49,7 +49,7 @@ RUN set -ex; \
 RUN echo 'deb https://artifacts.elastic.co/packages/5.x/apt stable main' > /etc/apt/sources.list.d/kibana.list
 
 ENV KIBANA_VERSION 5.2.1
-ENV ELASTICSEARCH_SERVICE_HOST localhost
+ENV ELASTICSEARCH_SERVICE_HOST 0.0.0.0
 
 RUN set -x \
 	&& apt-get update \
@@ -61,8 +61,8 @@ RUN set -x \
 	&& grep -q "^server\.host: '0.0.0.0'\$" /etc/kibana/kibana.yml \
 	\
 # ensure the default configuration is useful when using --link
-	&& sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 'http://${ELASTICSEARCH_SERVICE_HOST}:9200'!" /etc/kibana/kibana.yml \
-	&& grep -q "^elasticsearch\.url: 'http://${ELASTICSEARCH_SERVICE_HOST}:9200'\$" /etc/kibana/kibana.yml
+	&& sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 'http://"$ELASTICSEARCH_SERVICE_HOST":9200'!" /etc/kibana/kibana.yml \
+	&& grep -q "^elasticsearch\.url: 'http://"$ELASTICSEARCH_SERVICE_HOST":9200\$" /etc/kibana/kibana.yml
 
 RUN chmod -R 777 /usr && chmod -R 777 /etc
 	
