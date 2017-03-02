@@ -69,11 +69,11 @@ EXPOSE 5601
 
 RUN chmod -R 777 /usr && chmod -R 777 /etc && chmod -R 777 /var && chmod -R 777 /docker-entrypoint.sh
 
-USER kibana
-
 RUN /usr/share/kibana/bin/kibana-plugin install x-pack
 
 RUN chmod -R 777 /usr && chmod -R 777 /etc && chmod -R 777 /var
+
+USER kibana
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["kibana"]
