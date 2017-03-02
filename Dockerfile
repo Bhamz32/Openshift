@@ -49,7 +49,6 @@ RUN set -ex; \
 RUN echo 'deb https://artifacts.elastic.co/packages/5.x/apt stable main' > /etc/apt/sources.list.d/kibana.list
 
 ENV KIBANA_VERSION 5.2.1
-ENV ELASTICSEARCH_SERVICE_HOST 0.0.0.0
 
 RUN set -x \
 	&& apt-get update \
@@ -58,15 +57,20 @@ RUN set -x \
 	\
 # the default "server.host" is "localhost" in 5+
 	&& sed -ri "s!^(\#\s*)?(server\.host:).*!\2 '0.0.0.0'!" /etc/kibana/kibana.yml \
-	&& grep -q "^server\.host: '0.0.0.0'\$" /etc/kibana/kibana.yml \
-	\
-# ensure the default configuration is useful when using --link
-	&& sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 'http://${ELASTICSEARCH_SERVICE_HOST}:9200'!" /etc/kibana/kibana.yml \
-	&& grep -q "^elasticsearch\.url: 'http://${ELASTICSEARCH_SERVICE_HOST}:9200'\$" /etc/kibana/kibana.yml
+	&& grep -q "^server\.host: '0.0.0.0'\$" /etc/kibana/kibana.yml 
 	
 RUN chmod -R 777 /usr && chmod -R 777 /etc && chmod -R 777 /var
 	
 ENV PATH /usr/share/kibana/bin:$PATH
 
+COPY docker-entrypoint.sh /
+
 EXPOSE 5601
+
+RUN chmod -R 777 /usr && chmod -R 777 /etc && chmod -R 777 /var
+
+USER kibana
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
 CMD ["kibana"]
