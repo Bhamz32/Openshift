@@ -64,7 +64,7 @@ RUN set -x \
 	&& sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 'http://${ELASTICSEARCH_SERVICE_HOST}:9200'!" /etc/kibana/kibana.yml \
 	&& grep -q "^elasticsearch\.url: 'http://${ELASTICSEARCH_SERVICE_HOST}:9200'\$" /etc/kibana/kibana.yml
 	
-RUN chmod -R 777 /usr && chmod -R 777 /etc
+RUN chmod -R 777 /usr && chmod -R 777 /etc && chmod -R 777 /var
 	
 ENV PATH /usr/share/kibana/bin:$PATH
 
