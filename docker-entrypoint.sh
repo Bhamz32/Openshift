@@ -7,6 +7,6 @@ if [[ "$1" == -* ]]; then
 	set -- kibana "$@"
 fi
 
-sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 'http://elasticsearch/'!" /etc/kibana/kibana.yml
+sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 '${ELASTICSEARCH}'!" /etc/kibana/kibana.yml
 
 exec "$@"
