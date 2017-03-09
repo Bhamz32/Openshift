@@ -59,9 +59,9 @@ RUN set -x \
 	&& sed -ri "s!^(\#\s*)?(server\.host:).*!\2 '0.0.0.0'!" /etc/kibana/kibana.yml \
 	&& grep -q "^server\.host: '0.0.0.0'\$" /etc/kibana/kibana.yml 
 	
-RUN yum install -y curl
+RUN apt-get install -y curl
 	
-RUN yum install -y unzip
+RUN apt-get install -y unzip
 	
 RUN chmod -R 777 /usr && chmod -R 777 /etc && chmod -R 777 /var
 	
