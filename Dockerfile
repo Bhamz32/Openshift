@@ -58,11 +58,6 @@ RUN set -x \
 # the default "server.host" is "localhost" in 5+
 	&& sed -ri "s!^(\#\s*)?(server\.host:).*!\2 '0.0.0.0'!" /etc/kibana/kibana.yml \
 	&& grep -q "^server\.host: '0.0.0.0'\$" /etc/kibana/kibana.yml 
-	
-RUN set -x \
-	&& apt-get update \
-	&& apt-get install -y --no-install-recommends filebeat \
-	&& rm -rf /var/lib/apt/lists/* \
 
 RUN chmod -R 777 /usr && chmod -R 777 /etc && chmod -R 777 /var
 	
