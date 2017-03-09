@@ -58,16 +58,11 @@ RUN set -x \
 # the default "server.host" is "localhost" in 5+
 	&& sed -ri "s!^(\#\s*)?(server\.host:).*!\2 '0.0.0.0'!" /etc/kibana/kibana.yml \
 	&& grep -q "^server\.host: '0.0.0.0'\$" /etc/kibana/kibana.yml 
-
-RUN set -x \
-	&& apt-get update \
-	&& apt-get install -y curl \
-	&& rm -rf /var/lib/apt/lists/*
 	
 RUN set -x \
 	&& apt-get update \
-	&& apt-get install -y unzip \
-	&& rm -rf /var/lib/apt/lists/*
+	&& apt-get install -y --no-install-recommends filebeat \
+	&& rm -rf /var/lib/apt/lists/* \
 
 RUN chmod -R 777 /usr && chmod -R 777 /etc && chmod -R 777 /var
 	
@@ -83,9 +78,3 @@ USER kibana
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["kibana"]
-
-RUN curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.1.0.zip
-RUN unzip beats-dashboards-*.zip
-RUN cd beats-dashboards-*
-RUN ./load.sh
-RUN cd ..
