@@ -59,6 +59,10 @@ RUN set -x \
 	&& sed -ri "s!^(\#\s*)?(server\.host:).*!\2 '0.0.0.0'!" /etc/kibana/kibana.yml \
 	&& grep -q "^server\.host: '0.0.0.0'\$" /etc/kibana/kibana.yml 
 	
+RUN yum install -y curl
+	
+RUN yum install -y unzip
+	
 RUN chmod -R 777 /usr && chmod -R 777 /etc && chmod -R 777 /var
 	
 ENV PATH /usr/share/kibana/bin:$PATH
@@ -73,3 +77,9 @@ USER kibana
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["kibana"]
+
+RUN curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.1.0.zip
+RUN unzip beats-dashboards-*.zip
+RUN cd beats-dashboards-*
+RUN ./load.sh
+RUN cd ..
